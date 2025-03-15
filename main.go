@@ -13,6 +13,15 @@ func (e Employee) Display(){
 	fmt.Printf("ID: %d\nName: %s\nPosition: %s\nSalary: $%.2f\n", e.ID, e.Name, e.Position, e.Salary)
 }
 
+func (e *Employee) UpdateSalary(newSalary float64){
+	if newSalary > 0 {
+		e.Salary = newSalary
+		fmt.Printf("Updated salary for %s to $.2f\n", e.Name, e.Salary)
+	} else {
+		fmt.Println("Invalid salary amount.")
+	}
+}
+
 type EmployeeManagementSystem struct {
 	Employees []Employee
 }
@@ -20,6 +29,15 @@ type EmployeeManagementSystem struct {
 func (ems *EmployeeManagementSystem) AddEmployee(employee Employee) {
 	ems.Employees = append(ems.Employees, employee)
 	fmt.Println("Added new employee:", employee.Name)
+}
+
+func (ems EmployeeManagementSystem) FindEmployeeByID(id int) *Employee{
+	for i, emp := range ems.Employees{
+		if emp.ID == id {
+			return &ems.Employees[i]
+		}
+	}
+	return nil
 }
 
 func (ems EmployeeManagementSystem) ListEmployees(){
@@ -44,6 +62,9 @@ func main() {
 	//find employee and update
 	emp := ems.FindEmployeeByID(1)
 	if emp != nil {
-
-	} else
+		emp.UpdateSalary(65000)
+		emp.Promote("Senior Software Engineer", 10000)
+	} else {
+		fmt.Println("Employee not found.")
+	}
 }
