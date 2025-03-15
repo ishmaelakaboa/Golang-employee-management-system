@@ -16,10 +16,16 @@ func (e Employee) Display(){
 func (e *Employee) UpdateSalary(newSalary float64){
 	if newSalary > 0 {
 		e.Salary = newSalary
-		fmt.Printf("Updated salary for %s to $.2f\n", e.Name, e.Salary)
+		fmt.Printf("Updated salary for %s to $%.2f\n", e.Name, e.Salary)
 	} else {
 		fmt.Println("Invalid salary amount.")
 	}
+}
+
+func (e *Employee) Promote(newPosition string, raise float64){
+	e.Position = newPosition
+	e.UpdateSalary(e.Salary + raise)
+	fmt.Printf("%s has been promoted to %s!\n", e.Name, e.Position)
 }
 
 type EmployeeManagementSystem struct {
@@ -67,4 +73,8 @@ func main() {
 	} else {
 		fmt.Println("Employee not found.")
 	}
+
+	//Display updated employee list
+	fmt.Println("\nAfter updates:")
+	ems.ListEmployees()
 }
